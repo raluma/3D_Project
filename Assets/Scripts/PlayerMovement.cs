@@ -59,6 +59,9 @@ public class PlayerMovement : MonoBehaviour
         if (transform.position.z <= -194f)
         {
             Debug.Log("You win!");
+        } else if (transform.position.y < -2f)
+        {
+            Debug.Log("Game Over!");
         }
     }
 }
