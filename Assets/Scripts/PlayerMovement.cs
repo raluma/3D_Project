@@ -10,8 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider boxCollider;
 
     public float speed = 2.0f;
-
     public float jumpForce = 4f;
+    public int health = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -56,12 +56,32 @@ public class PlayerMovement : MonoBehaviour
             boxCollider.enabled = false;
         }
 
-        if (transform.position.z <= -194f)
+        if (transform.position.y < -2f && transform.position.z > -194f)
         {
-            Debug.Log("You win!");
-        } else if (transform.position.y < -2f)
+            health--;
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        foreach (GameObject obstacle in GameObject.FindGameObjectsWithTag("Obstacle"))
         {
-            Debug.Log("Game Over!");
+            if (collision.collider.Equals(obstacle.GetComponent("Collider")))
+            {
+                health--;
+            }
+        }
+    }
+
+    void OnGUI()
+    {
+        if (health <= 0)
+        {
+            GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "Game Over!");
+        }
+        else if (transform.position.z <= -194f)
+        {
+            GUI.Label(new Rect(Screen.width / 2 - 50, Screen.height / 2 - 25, 100, 50), "You win!");
         }
     }
 }
